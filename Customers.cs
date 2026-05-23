@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-
+using GMS_Kabbo.Data;
 
 namespace GMS_Kabbo
 {
@@ -56,19 +56,16 @@ namespace GMS_Kabbo
 
         }
 
-        SqlConnection Connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\NOC-02\Documents\HotelManagementDB.mdf;Integrated Security=True;Connect Timeout=30");
         private void ShowCustomer()
         {
-            Connection.Open();
-
-            string Query = "Select * from CustomerTbl";
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Connection);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            CustomerData.DataSource = ds.Tables[0];
-            Connection.Close();
-
+            using (var connection = DatabaseHelper.CreateConnection())
+            {
+                connection.Open();
+                var sda = new SqlDataAdapter("SELECT * FROM CustomerTbl", connection);
+                var ds = new DataSet();
+                sda.Fill(ds);
+                CustomerData.DataSource = ds.Tables[0];
+            }
         }
         private void Reset()
         {
@@ -87,20 +84,25 @@ namespace GMS_Kabbo
             {
                 try
                 {
-                    Connection.Open();
-                    SqlCommand cmd = new SqlCommand("insert into CustomerTbl(CusName,CusPhone,CusMs,CusDOB,CusRoom, CusProf) values(@CN,@CP,@CMS,@CD,@Room,@Prof)", Connection);
-                    cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
-                    cmd.Parameters.AddWithValue("@CP", CusPhoneTb.Text);
-                    cmd.Parameters.AddWithValue("@CMS", CusMsCb.SelectedItem.ToString());
-                    cmd.Parameters.AddWithValue("@CD", CusDOB.Value.Date);
-                    cmd.Parameters.AddWithValue("@Room", CusRoomCb.Text);
-                    cmd.Parameters.AddWithValue("@Prof", CusProfCb.SelectedItem.ToString());
-                    cmd.ExecuteNonQuery();
+                    using (var connection = DatabaseHelper.CreateConnection())
+                    {
+                        connection.Open();
+                        using (var cmd = new SqlCommand(
+                            "INSERT INTO CustomerTbl (CusName, CusPhone, CusMs, CusDOB, CusRoom, CusProf) VALUES (@CN, @CP, @CMS, @CD, @Room, @Prof)",
+                            connection))
+                        {
+                            cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
+                            cmd.Parameters.AddWithValue("@CP", CusPhoneTb.Text);
+                            cmd.Parameters.AddWithValue("@CMS", CusMsCb.SelectedItem.ToString());
+                            cmd.Parameters.AddWithValue("@CD", CusDOB.Value.Date);
+                            cmd.Parameters.AddWithValue("@Room", CusRoomCb.Text);
+                            cmd.Parameters.AddWithValue("@Prof", CusProfCb.SelectedItem.ToString());
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
                     MessageBox.Show("User Saved");
-                    Connection.Close();
                     ShowCustomer();
                     Reset();
-
                 }
                 catch (Exception Ex)
                 {
@@ -145,12 +147,17 @@ namespace GMS_Kabbo
                     {
                         try
                         {
-                            Connection.Open();
-                            SqlCommand cmd = new SqlCommand("DELETE FROM CustomerTbl WHERE CusId = @CusId", Connection);
-                            cmd.Parameters.AddWithValue("@CusId", Key);
-                            cmd.ExecuteNonQuery();
+                            using (var connection = DatabaseHelper.CreateConnection())
+                            {
+                                connection.Open();
+                                using (var cmd = new SqlCommand(
+                                    "DELETE FROM CustomerTbl WHERE CusId = @CusId", connection))
+                                {
+                                    cmd.Parameters.AddWithValue("@CusId", Key);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
                             MessageBox.Show("Customer deleted successfully");
-                            Connection.Close();
                             ShowCustomer();
                             Reset();
                         }
@@ -178,20 +185,24 @@ namespace GMS_Kabbo
                     {
                         try
                         {
-                            Connection.Open();
-                            SqlCommand cmd = new SqlCommand("UPDATE CustomerTbl SET CusName = @CN, CusPhone = @CP, CusMs = @CMS, CusDOB = @CD, CusRoom = @Room, CusProf = @Prof WHERE CusId = @CusId", Connection);  
-                            cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
-                            cmd.Parameters.AddWithValue("@CP", CusPhoneTb.Text);
-                            cmd.Parameters.AddWithValue("@CMS", CusMsCb.SelectedItem.ToString());
-                            cmd.Parameters.AddWithValue("@CD", CusDOB.Value.Date);
-                            cmd.Parameters.AddWithValue("@Room", CusRoomCb.Text);
-                            cmd.Parameters.AddWithValue("@Prof", CusProfCb.SelectedItem.ToString());
-                            cmd.Parameters.AddWithValue("@CusId", Key);
-
-                            cmd.ExecuteNonQuery();
+                            using (var connection = DatabaseHelper.CreateConnection())
+                            {
+                                connection.Open();
+                                using (var cmd = new SqlCommand(
+                                    "UPDATE CustomerTbl SET CusName = @CN, CusPhone = @CP, CusMs = @CMS, CusDOB = @CD, CusRoom = @Room, CusProf = @Prof WHERE CusId = @CusId",
+                                    connection))
+                                {
+                                    cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
+                                    cmd.Parameters.AddWithValue("@CP", CusPhoneTb.Text);
+                                    cmd.Parameters.AddWithValue("@CMS", CusMsCb.SelectedItem.ToString());
+                                    cmd.Parameters.AddWithValue("@CD", CusDOB.Value.Date);
+                                    cmd.Parameters.AddWithValue("@Room", CusRoomCb.Text);
+                                    cmd.Parameters.AddWithValue("@Prof", CusProfCb.SelectedItem.ToString());
+                                    cmd.Parameters.AddWithValue("@CusId", Key);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
                             MessageBox.Show("Customer updated successfully");
-
-                            Connection.Close();
                             ShowCustomer();
                             Reset();
                         }

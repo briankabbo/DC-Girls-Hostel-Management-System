@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMS_Kabbo.Data;
 
 namespace GMS_Kabbo
 {
@@ -19,32 +20,34 @@ namespace GMS_Kabbo
             ShowBookings();
         }
 
-        SqlConnection Connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\NOC-02\Documents\HotelManagementDB.mdf;Integrated Security=True;Connect Timeout=30");
         private void ShowBookings()
         {
-            Connection.Open();
-
-            string Query = "Select * from BookingTbl";
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Connection);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            BookingData.DataSource = ds.Tables[0];
-            Connection.Close();
-
+            using (var connection = DatabaseHelper.CreateConnection())
+            {
+                connection.Open();
+                var sda = new SqlDataAdapter("SELECT * FROM BookingTbl", connection);
+                var ds = new DataSet();
+                sda.Fill(ds);
+                BookingData.DataSource = ds.Tables[0];
+            }
         }
+
         private void FilterBooking()
         {
-            Connection.Open();
+            if (RTypeCb.SelectedItem == null) return;
 
-            string Query = $"SELECT * FROM BookingTbl WHERE RType = '{RTypeCb.SelectedItem.ToString()}'";
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Connection);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            BookingData.DataSource = ds.Tables[0];
-            Connection.Close();
-
+            using (var connection = DatabaseHelper.CreateConnection())
+            {
+                connection.Open();
+                using (var cmd = new SqlCommand("SELECT * FROM BookingTbl WHERE RType = @RType", connection))
+                {
+                    cmd.Parameters.AddWithValue("@RType", RTypeCb.SelectedItem.ToString());
+                    var sda = new SqlDataAdapter(cmd);
+                    var ds = new DataSet();
+                    sda.Fill(ds);
+                    BookingData.DataSource = ds.Tables[0];
+                }
+            }
         }
         private void Bookings_Load(object sender, EventArgs e)
         {

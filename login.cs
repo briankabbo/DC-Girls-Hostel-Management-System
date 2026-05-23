@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMS_Kabbo.Data;
 
 namespace GMS_Kabbo
 {
@@ -34,35 +35,43 @@ namespace GMS_Kabbo
             obj.Show();
             this.Hide(); 
         }
-        SqlConnection Connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\NOC-02\Documents\HotelManagementDB.mdf;Integrated Security=True;Connect Timeout=30");
         private void SaveBtn_Click(object sender, EventArgs e)
         {
             if (UNameTb.Text == "" || PasswordTb.Text == "")
             {
                 MessageBox.Show("Enter Username and Password");
-            } else
-                try
-                {
-                    Connection.Open();
-                    SqlDataAdapter sda = new SqlDataAdapter("Select Count (*) FROM UserTbl WHERE Uname ='"+UNameTb.Text+"' and Upass'" + PasswordTb.Text + "'", Connection);
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-                    if(dt.Rows[0][0].ToString() == "1")
-                    {
-                        Dashboard obj = new Dashboard();
-                        obj.Show();
-                        this.Hide();
-                        Connection.Close();
-                    } else
-                    {
-                        MessageBox.Show("Invalid Information");
-                    }
+                return;
+            }
 
-                    Connection.Close();
-                } catch (Exception)
+            try
+            {
+                using (var connection = DatabaseHelper.CreateConnection())
                 {
-                    throw;
+                    connection.Open();
+                    using (var cmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM UserTbl WHERE Uname = @Uname AND Upass = @Upass",
+                        connection))
+                    {
+                        cmd.Parameters.AddWithValue("@Uname", UNameTb.Text);
+                        cmd.Parameters.AddWithValue("@Upass", PasswordTb.Text);
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        if (count == 1)
+                        {
+                            var dashboard = new Dashboard();
+                            dashboard.Show();
+                            Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Invalid Information");
+                        }
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Login failed: " + ex.Message);
+            }
         }
     }
 }

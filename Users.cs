@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using GMS_Kabbo.Data;
 
 namespace GMS_Kabbo
 {
@@ -28,19 +29,16 @@ namespace GMS_Kabbo
         {
 
         }
-        SqlConnection Connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\NOC-02\Documents\HotelManagementDB.mdf;Integrated Security=True;Connect Timeout=30");
         private void ShowUsers()
         {
-            Connection.Open();
-
-            string Query = "Select * from UserTbl";
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Connection);
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-            var ds = new DataSet();
-            sda.Fill(ds);
-            UsersData.DataSource = ds.Tables[0];
-            Connection.Close();
-
+            using (var connection = DatabaseHelper.CreateConnection())
+            {
+                connection.Open();
+                var sda = new SqlDataAdapter("SELECT * FROM UserTbl", connection);
+                var ds = new DataSet();
+                sda.Fill(ds);
+                UsersData.DataSource = ds.Tables[0];
+            }
         }
         private void bunifuThinButton21_Click(object sender, EventArgs e)
         {
@@ -52,17 +50,22 @@ namespace GMS_Kabbo
             {
                 try
                 {
-                    Connection.Open();
-                    SqlCommand cmd = new SqlCommand("insert into UserTbl(UName,Uphone,Upass)values(@UN,@UP,@UPA)", Connection);
-                    cmd.Parameters.AddWithValue("@UN", UnameTb.Text);
-                    cmd.Parameters.AddWithValue("@UP", UphoneTb.Text);
-                    cmd.Parameters.AddWithValue("@UPA", UpasswordTb.Text);
-                    cmd.ExecuteNonQuery();
+                    using (var connection = DatabaseHelper.CreateConnection())
+                    {
+                        connection.Open();
+                        using (var cmd = new SqlCommand(
+                            "INSERT INTO UserTbl (Uname, Uphone, Upass) VALUES (@UN, @UP, @UPA)",
+                            connection))
+                        {
+                            cmd.Parameters.AddWithValue("@UN", UnameTb.Text);
+                            cmd.Parameters.AddWithValue("@UP", UphoneTb.Text);
+                            cmd.Parameters.AddWithValue("@UPA", UpasswordTb.Text);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
                     MessageBox.Show("User Saved");
-                    Connection.Close();
                     ShowUsers();
                     Reset();
-
                 }
                 catch (Exception Ex)
                 {
@@ -98,15 +101,21 @@ namespace GMS_Kabbo
             {
                 try
                 {
-                    Connection.Open();
-                    SqlCommand cmd = new SqlCommand("Update UserTbl Set Uname=@UN,Uphone=@UP,Upass=@UPA where UId=@Ukey", Connection);
-                    cmd.Parameters.AddWithValue("@UN", UnameTb.Text);
-                    cmd.Parameters.AddWithValue("@UP", UphoneTb.Text);
-                    cmd.Parameters.AddWithValue("@UPA", UpasswordTb.Text);
-                    cmd.Parameters.AddWithValue("@Ukey", Key);
-                    cmd.ExecuteNonQuery();
+                    using (var connection = DatabaseHelper.CreateConnection())
+                    {
+                        connection.Open();
+                        using (var cmd = new SqlCommand(
+                            "UPDATE UserTbl SET Uname = @UN, Uphone = @UP, Upass = @UPA WHERE UId = @Ukey",
+                            connection))
+                        {
+                            cmd.Parameters.AddWithValue("@UN", UnameTb.Text);
+                            cmd.Parameters.AddWithValue("@UP", UphoneTb.Text);
+                            cmd.Parameters.AddWithValue("@UPA", UpasswordTb.Text);
+                            cmd.Parameters.AddWithValue("@Ukey", Key);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
                     MessageBox.Show("User Updated");
-                    Connection.Close();
                     ShowUsers();
                     Reset();
                 }
@@ -137,15 +146,19 @@ namespace GMS_Kabbo
                 {
                     try
                     {
-                        Connection.Open();
-                        SqlCommand cmd = new SqlCommand("DELETE FROM UserTbl WHERE UId=@Ukey", Connection);
-                        cmd.Parameters.AddWithValue("@Ukey", Key);
-                        cmd.ExecuteNonQuery();
+                        using (var connection = DatabaseHelper.CreateConnection())
+                        {
+                            connection.Open();
+                            using (var cmd = new SqlCommand(
+                                "DELETE FROM UserTbl WHERE UId = @Ukey", connection))
+                            {
+                                cmd.Parameters.AddWithValue("@Ukey", Key);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
                         MessageBox.Show("User Deleted");
-                        Connection.Close();
                         ShowUsers();
                         Reset();
-
                     }
                     catch (Exception Ex)
                     {

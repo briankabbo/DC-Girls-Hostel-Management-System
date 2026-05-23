@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using GMS_Kabbo.Data;
 
 namespace GMS_Kabbo
 {
@@ -72,7 +73,6 @@ namespace GMS_Kabbo
         {
 
         }
-        SqlConnection Connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\NOC-02\Documents\HotelManagementDB.mdf;Integrated Security=True;Connect Timeout=30");
         int free, Booked;
         int bper, freeper;
         private void CountBooked()
@@ -82,33 +82,30 @@ namespace GMS_Kabbo
 
             try
             {
-                Connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM RoomTbl WHERE RStatus = @status", Connection);
-                cmd.Parameters.AddWithValue("@status", status);
-
-                int bookedCount = Convert.ToInt32(cmd.ExecuteScalar());
-
-                free = totalRooms - bookedCount;
-                Booked = bookedCount;
-
-                bper = (Booked * 100) / totalRooms;
-                freeper = (free * 100) / totalRooms;
-
-                BLbl.Text = $"{Booked} Booked";
-                AVLbl.Text = $"{free} Available";
-                AVLbl2.Text = $"{free}";
-                FreeRoomsProgress.Value = freeper;
-                Bprogress.Value = bper;
-                Aprogress.Value = freeper;
+                using (var connection = DatabaseHelper.CreateConnection())
+                {
+                    connection.Open();
+                    using (var cmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM RoomTbl WHERE RStatus = @status", connection))
+                    {
+                        cmd.Parameters.AddWithValue("@status", status);
+                        int bookedCount = Convert.ToInt32(cmd.ExecuteScalar());
+                        free = totalRooms - bookedCount;
+                        Booked = bookedCount;
+                        bper = (Booked * 100) / totalRooms;
+                        freeper = (free * 100) / totalRooms;
+                        BLbl.Text = $"{Booked} Booked";
+                        AVLbl.Text = $"{free} Available";
+                        AVLbl2.Text = $"{free}";
+                        FreeRoomsProgress.Value = freeper;
+                        Bprogress.Value = bper;
+                        Aprogress.Value = freeper;
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
             }
         }
 
@@ -116,20 +113,19 @@ namespace GMS_Kabbo
         {
             try
             {
-                Connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM CustomerTbl", Connection);
-
-                int customerCount = Convert.ToInt32(cmd.ExecuteScalar());
-                CustNumLbl.Text = $"{customerCount}";
+                using (var connection = DatabaseHelper.CreateConnection())
+                {
+                    connection.Open();
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM CustomerTbl", connection))
+                    {
+                        int customerCount = Convert.ToInt32(cmd.ExecuteScalar());
+                        CustNumLbl.Text = $"{customerCount}";
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
             }
         }
 
@@ -137,20 +133,19 @@ namespace GMS_Kabbo
         {
             try
             {
-                Connection.Open();
-
-                SqlCommand cmd = new SqlCommand("SELECT COUNT(*) FROM BookingTbl", Connection);
-
-                int BookingCount = Convert.ToInt32(cmd.ExecuteScalar());
-                BookedLbl.Text = $"{BookingCount}";
+                using (var connection = DatabaseHelper.CreateConnection())
+                {
+                    connection.Open();
+                    using (var cmd = new SqlCommand("SELECT COUNT(*) FROM BookingTbl", connection))
+                    {
+                        int bookingCount = Convert.ToInt32(cmd.ExecuteScalar());
+                        BookedLbl.Text = $"{bookingCount}";
+                    }
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                Connection.Close();
             }
         }
 
@@ -172,16 +167,19 @@ namespace GMS_Kabbo
 
         private void GetCustomer()
         {
-            Connection.Open();
-            SqlCommand cmd = new SqlCommand("Select CusID FROM CustomerTbl",Connection);
-            SqlDataReader rdr;
-            rdr = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Columns.Add("CusId", typeof(int));
-            dt.Load(rdr);
-            CusIdCb.ValueMember = "CusId";
-            CusIdCb.DataSource = dt;
-            Connection.Close();
+            using (var connection = DatabaseHelper.CreateConnection())
+            {
+                connection.Open();
+                using (var cmd = new SqlCommand("SELECT CusId FROM CustomerTbl", connection))
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    var dt = new DataTable();
+                    dt.Columns.Add("CusId", typeof(int));
+                    dt.Load(rdr);
+                    CusIdCb.ValueMember = "CusId";
+                    CusIdCb.DataSource = dt;
+                }
+            }
         }
 
         int RoomNumber = 0;
@@ -189,30 +187,26 @@ namespace GMS_Kabbo
         {
             try
             {
-                Connection.Open();
-                string query = "SELECT CusName FROM CustomerTbl WHERE CusId = @CusId";
-
-                using (SqlCommand cmd = new SqlCommand(query, Connection))
+                if (CusIdCb.SelectedValue == null)
                 {
-                    if (CusIdCb.SelectedValue == null)
-                    {
-                        MessageBox.Show("Please select a customer.");
-                        return;
-                    }
-                    cmd.Parameters.AddWithValue("@CusId", CusIdCb.SelectedValue);
+                    MessageBox.Show("Please select a customer.");
+                    return;
+                }
 
-                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                using (var connection = DatabaseHelper.CreateConnection())
+                {
+                    connection.Open();
+                    using (var cmd = new SqlCommand(
+                        "SELECT CusName FROM CustomerTbl WHERE CusId = @CusId", connection))
                     {
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-
-                        if (dt.Rows.Count > 0)
+                        cmd.Parameters.AddWithValue("@CusId", CusIdCb.SelectedValue);
+                        using (var sda = new SqlDataAdapter(cmd))
                         {
-                            CusNameTb.Text = dt.Rows[0]["CusName"].ToString();
-                        }
-                        else
-                        {
-                            CusNameTb.Text = "Customer not found";
+                            var dt = new DataTable();
+                            sda.Fill(dt);
+                            CusNameTb.Text = dt.Rows.Count > 0
+                                ? dt.Rows[0]["CusName"].ToString()
+                                : "Customer not found";
                         }
                     }
                 }
@@ -220,13 +214,6 @@ namespace GMS_Kabbo
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                if (Connection.State == ConnectionState.Open)
-                {
-                    Connection.Close();
-                }
             }
         }
 
@@ -236,26 +223,26 @@ namespace GMS_Kabbo
         {
             try
             {
-                Connection.Open();
-                string query = "SELECT RType, RCost FROM RoomTbl WHERE RId = @RoomNumber";
-
-                using (SqlCommand cmd = new SqlCommand(query, Connection))
+                using (var connection = DatabaseHelper.CreateConnection())
                 {
-                    cmd.Parameters.AddWithValue("@RoomNumber", RoomNumber);
-
-                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    connection.Open();
+                    using (var cmd = new SqlCommand(
+                        "SELECT RType, RCost FROM RoomTbl WHERE RId = @RoomNumber", connection))
                     {
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-
-                        if (dt.Rows.Count > 0)
+                        cmd.Parameters.AddWithValue("@RoomNumber", RoomNumber);
+                        using (var sda = new SqlDataAdapter(cmd))
                         {
-                            RType = dt.Rows[0]["RType"].ToString();
-                            RC = Convert.ToInt32(dt.Rows[0]["RCost"].ToString());
-                        }
-                        else
-                        {
-                            RType = "Room type not found";
+                            var dt = new DataTable();
+                            sda.Fill(dt);
+                            if (dt.Rows.Count > 0)
+                            {
+                                RType = dt.Rows[0]["RType"].ToString();
+                                RC = Convert.ToInt32(dt.Rows[0]["RCost"].ToString());
+                            }
+                            else
+                            {
+                                RType = "Room type not found";
+                            }
                         }
                     }
                 }
@@ -265,13 +252,6 @@ namespace GMS_Kabbo
             catch (Exception ex)
             {
                 MessageBox.Show("Error: " + ex.Message);
-            }
-            finally
-            {
-                if (Connection.State == ConnectionState.Open)
-                {
-                    Connection.Close();
-                }
             }
         }
 
@@ -290,49 +270,63 @@ namespace GMS_Kabbo
         {
             try
             {
-                Connection.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE RoomTbl SET RStatus = @RS WHERE RId = @RKey", Connection);
-                cmd.Parameters.AddWithValue("@RS", Status);
-                cmd.Parameters.AddWithValue("@RKey", RoomNumber);
-                cmd.ExecuteNonQuery();
+                using (var connection = DatabaseHelper.CreateConnection())
+                {
+                    connection.Open();
+                    using (var cmd = new SqlCommand(
+                        "UPDATE RoomTbl SET RStatus = @RS WHERE RId = @RKey", connection))
+                    {
+                        cmd.Parameters.AddWithValue("@RS", Status);
+                        cmd.Parameters.AddWithValue("@RKey", RoomNumber);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
                 MessageBox.Show("Room updated successfully");
-                Connection.Close();
                 Reset();
+                CountBooked();
             }
-            catch (Exception Ex)
+            catch (Exception ex)
             {
-                MessageBox.Show("Error: " + Ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
+
         private void SaveBtn_Click(object sender, EventArgs e)
         {
-            if (CusNameTb.Text == ""|| RoomNumber == 0)
+            if (CusNameTb.Text == "" || RoomNumber == 0)
             {
                 MessageBox.Show("Select A Room");
-            } else
+            }
+            else
             {
                 try
                 {
                     GetRoomType();
-                    Connection.Open();
-                    SqlCommand cmd = new SqlCommand("insert into BookingTbl(CusId,CusName,RId,RNum,RType,BCost) values(@CI,@CN,@RI,@RN,@RT,@RC)", Connection);
-                    cmd.Parameters.AddWithValue("@CI", CusIdCb.SelectedValue?.ToString() ?? "");
-                    cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
-                    cmd.Parameters.AddWithValue("@RI", RoomNumber);
-                    cmd.Parameters.AddWithValue("@RN", RoomNumber);
-                    cmd.Parameters.AddWithValue("@RT", RType);
-                    cmd.Parameters.AddWithValue("@RC", RC);
-                    cmd.ExecuteNonQuery();
+                    using (var connection = DatabaseHelper.CreateConnection())
+                    {
+                        connection.Open();
+                        using (var cmd = new SqlCommand(
+                            "INSERT INTO BookingTbl (CusId, CusName, RId, RNum, RType, BCost) VALUES (@CI, @CN, @RI, @RN, @RT, @RC)",
+                            connection))
+                        {
+                            cmd.Parameters.AddWithValue("@CI", CusIdCb.SelectedValue ?? 0);
+                            cmd.Parameters.AddWithValue("@CN", CusNameTb.Text);
+                            cmd.Parameters.AddWithValue("@RI", RoomNumber);
+                            cmd.Parameters.AddWithValue("@RN", RoomNumber);
+                            cmd.Parameters.AddWithValue("@RT", RType ?? "");
+                            cmd.Parameters.AddWithValue("@RC", RC);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
                     MessageBox.Show("Room Booked Successfully");
-                    Reset();
-                    Connection.Close();
                     UpdateRoom();
-                } catch (Exception Ex)
+                    CountBookings();
+                }
+                catch (Exception ex)
                 {
-                    MessageBox.Show(Ex.Message);
+                    MessageBox.Show(ex.Message);
                 }
             }
-
         }
 
         private void CusIdCb_SelectionChangeCommitted(object sender, EventArgs e)
