@@ -1,5 +1,6 @@
 -- DC Girls Hostel Management System — database setup
--- Run in SSMS against your SQL Server instance (includes LocalDB).
+-- Connect SSMS to: (localdb)\DCGirlsHostel  (run SQL\EnsureLocalDbInstance.bat if needed)
+-- MSSQLLocalDB may be broken on some PCs; App.config uses DCGirlsHostel instead.
 
 USE master;
 GO
@@ -23,7 +24,7 @@ CREATE TABLE dbo.UserTbl (
     UId    INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
     Uname  NVARCHAR(100)     NOT NULL,
     Uphone NVARCHAR(50)      NOT NULL,
-    Upass  NVARCHAR(100)     NOT NULL
+    Upass  NVARCHAR(256)     NOT NULL  -- PBKDF2 hash (iterations.salt.hash)
 );
 
 CREATE TABLE dbo.CustomerTbl (
@@ -69,11 +70,15 @@ BEGIN
 END
 GO
 
--- Default admin (change password after first login)
+-- Default admin: password "admin" (PBKDF2) — change after first login
 IF NOT EXISTS (SELECT 1 FROM dbo.UserTbl WHERE Uname = N'admin')
 BEGIN
     INSERT INTO dbo.UserTbl (Uname, Uphone, Upass)
-    VALUES (N'admin', N'0000000000', N'admin');
+    VALUES (
+        N'admin',
+        N'0000000000',
+        N'100000.aewDeBirZT6wDQdnXUPTyQ==.0s2UrHTZ6PxsVIxkqdoKcNNsgHfUdovP+1AsBhihW5g='
+    );
 END
 GO
 

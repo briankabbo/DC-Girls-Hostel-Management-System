@@ -1,5 +1,5 @@
-﻿
-namespace GMS_Kabbo
+
+namespace GMS_Kabbo.Forms
 {
     partial class login
     {
@@ -50,7 +50,6 @@ namespace GMS_Kabbo
             this.label15.Size = new System.Drawing.Size(205, 21);
             this.label15.TabIndex = 17;
             this.label15.Text = "Dhaka Credit Girl\'s Hostel";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // pictureBox2
             // 

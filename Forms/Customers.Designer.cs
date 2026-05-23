@@ -1,5 +1,5 @@
-﻿
-namespace GMS_Kabbo
+
+namespace GMS_Kabbo.Forms
 {
     partial class Customers
     {
@@ -250,7 +250,6 @@ namespace GMS_Kabbo
             this.label11.Size = new System.Drawing.Size(42, 14);
             this.label11.TabIndex = 41;
             this.label11.Text = "Room ";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label10
             // 
@@ -271,7 +270,6 @@ namespace GMS_Kabbo
             this.label9.Size = new System.Drawing.Size(90, 14);
             this.label9.TabIndex = 39;
             this.label9.Text = "Marital Status";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // DeleteBtn
             // 
@@ -361,7 +359,6 @@ namespace GMS_Kabbo
             this.CusRoomCb.Name = "CusRoomCb";
             this.CusRoomCb.Size = new System.Drawing.Size(159, 21);
             this.CusRoomCb.TabIndex = 33;
-            this.CusRoomCb.SelectedIndexChanged += new System.EventHandler(this.CusRoomCb_SelectedIndexChanged);
             // 
             // CusProfCb
             // 
@@ -386,7 +383,6 @@ namespace GMS_Kabbo
             this.CusMsCb.Name = "CusMsCb";
             this.CusMsCb.Size = new System.Drawing.Size(159, 21);
             this.CusMsCb.TabIndex = 31;
-            this.CusMsCb.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // CusDOB
             // 
@@ -403,7 +399,6 @@ namespace GMS_Kabbo
             this.CusDOB.Size = new System.Drawing.Size(215, 19);
             this.CusDOB.TabIndex = 30;
             this.CusDOB.Value = new System.DateTime(2024, 12, 14, 18, 0, 8, 563);
-            this.CusDOB.ValueChanged += new System.EventHandler(this.guna2DateTimePicker1_ValueChanged);
             // 
             // guna2Panel41
             // 
@@ -429,7 +424,6 @@ namespace GMS_Kabbo
             this.label3.Size = new System.Drawing.Size(72, 15);
             this.label3.TabIndex = 35;
             this.label3.Text = "Customers";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
@@ -470,7 +464,6 @@ namespace GMS_Kabbo
             this.label6.Size = new System.Drawing.Size(44, 12);
             this.label6.TabIndex = 7;
             this.label6.Text = "Log Out";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // pictureBox5
             // 
@@ -604,7 +597,6 @@ namespace GMS_Kabbo
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Customers";
             this.Text = "Customers";
-            this.Load += new System.EventHandler(this.Customers_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox8)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

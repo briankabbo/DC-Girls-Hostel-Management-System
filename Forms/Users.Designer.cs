@@ -1,5 +1,5 @@
-﻿
-namespace GMS_Kabbo
+
+namespace GMS_Kabbo.Forms
 {
     partial class Users
     {
@@ -266,7 +266,6 @@ namespace GMS_Kabbo
             this.UpasswordTb.Name = "UpasswordTb";
             this.UpasswordTb.Size = new System.Drawing.Size(132, 20);
             this.UpasswordTb.TabIndex = 25;
-            this.UpasswordTb.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // UphoneTb
             // 
@@ -291,7 +290,6 @@ namespace GMS_Kabbo
             this.label13.Size = new System.Drawing.Size(89, 16);
             this.label13.TabIndex = 22;
             this.label13.Text = "Users Details";
-            this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // pictureBox8
             // 

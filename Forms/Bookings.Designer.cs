@@ -1,5 +1,5 @@
-﻿
-namespace GMS_Kabbo
+
+namespace GMS_Kabbo.Forms
 {
     partial class Bookings
     {
@@ -152,7 +152,6 @@ namespace GMS_Kabbo
             this.BookingData.ThemeStyle.RowsStyle.Height = 22;
             this.BookingData.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
             this.BookingData.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.BookingData.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.BookingDGV_CellContentClick);
             // 
             // bunifuThinButton21
             // 
@@ -419,7 +418,6 @@ namespace GMS_Kabbo
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "Bookings";
             this.Text = "Bookings";
-            this.Load += new System.EventHandler(this.Bookings_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BookingData)).EndInit();

@@ -1,5 +1,5 @@
-﻿
-namespace GMS_Kabbo
+
+namespace GMS_Kabbo.Forms
 {
     partial class Dashboard
     {
@@ -204,7 +204,6 @@ namespace GMS_Kabbo
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(522, 391);
             this.panel1.TabIndex = 0;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // SaveBtn
             // 
@@ -248,7 +247,6 @@ namespace GMS_Kabbo
             this.label7.Size = new System.Drawing.Size(72, 15);
             this.label7.TabIndex = 35;
             this.label7.Text = "Customers";
-            this.label7.Click += new System.EventHandler(this.label7_Click_1);
             // 
             // CusIdCb
             // 
@@ -272,7 +270,6 @@ namespace GMS_Kabbo
             this.label16.Size = new System.Drawing.Size(89, 16);
             this.label16.TabIndex = 4;
             this.label16.Text = "Rooms Plan";
-            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // guna2Panel41
             // 
@@ -292,7 +289,6 @@ namespace GMS_Kabbo
             this.label15.Size = new System.Drawing.Size(205, 21);
             this.label15.TabIndex = 17;
             this.label15.Text = "Dhaka Credit Girl\'s Hostel";
-            this.label15.Click += new System.EventHandler(this.label15_Click);
             // 
             // R20
             // 
@@ -303,8 +299,7 @@ namespace GMS_Kabbo
             this.R20.Name = "R20";
             this.R20.Size = new System.Drawing.Size(86, 59);
             this.R20.TabIndex = 18;
-            this.R20.Click += new System.EventHandler(this.R20_Click);
-            this.R20.Paint += new System.Windows.Forms.PaintEventHandler(this.R20_Paint);
+            this.R20.Click += new System.EventHandler(this.Room_Click);
             // 
             // label32
             // 
@@ -333,8 +328,7 @@ namespace GMS_Kabbo
             this.R10.Name = "R10";
             this.R10.Size = new System.Drawing.Size(86, 59);
             this.R10.TabIndex = 2;
-            this.R10.Click += new System.EventHandler(this.R10_Click);
-            this.R10.Paint += new System.Windows.Forms.PaintEventHandler(this.R10_Paint);
+            this.R10.Click += new System.EventHandler(this.Room_Click);
             // 
             // label18
             // 
@@ -363,8 +357,7 @@ namespace GMS_Kabbo
             this.R15.Name = "R15";
             this.R15.Size = new System.Drawing.Size(86, 59);
             this.R15.TabIndex = 19;
-            this.R15.Click += new System.EventHandler(this.R15_Click);
-            this.R15.Paint += new System.Windows.Forms.PaintEventHandler(this.R15_Paint);
+            this.R15.Click += new System.EventHandler(this.Room_Click);
             // 
             // label27
             // 
@@ -393,8 +386,7 @@ namespace GMS_Kabbo
             this.R5.Name = "R5";
             this.R5.Size = new System.Drawing.Size(86, 59);
             this.R5.TabIndex = 17;
-            this.R5.Click += new System.EventHandler(this.R5_Click);
-            this.R5.Paint += new System.Windows.Forms.PaintEventHandler(this.R5_Paint);
+            this.R5.Click += new System.EventHandler(this.Room_Click);
             // 
             // label17
             // 
@@ -423,8 +415,7 @@ namespace GMS_Kabbo
             this.R19.Name = "R19";
             this.R19.Size = new System.Drawing.Size(86, 59);
             this.R19.TabIndex = 16;
-            this.R19.Click += new System.EventHandler(this.R19_Click);
-            this.R19.Paint += new System.Windows.Forms.PaintEventHandler(this.R19_Paint);
+            this.R19.Click += new System.EventHandler(this.Room_Click);
             // 
             // label31
             // 
@@ -453,8 +444,7 @@ namespace GMS_Kabbo
             this.R9.Name = "R9";
             this.R9.Size = new System.Drawing.Size(86, 59);
             this.R9.TabIndex = 8;
-            this.R9.Click += new System.EventHandler(this.R9_Click);
-            this.R9.Paint += new System.Windows.Forms.PaintEventHandler(this.R9_Paint);
+            this.R9.Click += new System.EventHandler(this.Room_Click);
             // 
             // label19
             // 
@@ -483,8 +473,7 @@ namespace GMS_Kabbo
             this.R14.Name = "R14";
             this.R14.Size = new System.Drawing.Size(86, 59);
             this.R14.TabIndex = 12;
-            this.R14.Click += new System.EventHandler(this.R14_Click);
-            this.R14.Paint += new System.Windows.Forms.PaintEventHandler(this.R14_Paint);
+            this.R14.Click += new System.EventHandler(this.Room_Click);
             // 
             // label26
             // 
@@ -513,8 +502,7 @@ namespace GMS_Kabbo
             this.R4.Name = "R4";
             this.R4.Size = new System.Drawing.Size(86, 59);
             this.R4.TabIndex = 4;
-            this.R4.Click += new System.EventHandler(this.R4_Click);
-            this.R4.Paint += new System.Windows.Forms.PaintEventHandler(this.R4_Paint);
+            this.R4.Click += new System.EventHandler(this.Room_Click);
             // 
             // label14
             // 
@@ -543,8 +531,7 @@ namespace GMS_Kabbo
             this.R17.Name = "R17";
             this.R17.Size = new System.Drawing.Size(86, 59);
             this.R17.TabIndex = 14;
-            this.R17.Click += new System.EventHandler(this.R17_Click);
-            this.R17.Paint += new System.Windows.Forms.PaintEventHandler(this.R17_Paint);
+            this.R17.Click += new System.EventHandler(this.Room_Click);
             // 
             // label29
             // 
@@ -573,8 +560,7 @@ namespace GMS_Kabbo
             this.R7.Name = "R7";
             this.R7.Size = new System.Drawing.Size(86, 59);
             this.R7.TabIndex = 6;
-            this.R7.Click += new System.EventHandler(this.R7_Click);
-            this.R7.Paint += new System.Windows.Forms.PaintEventHandler(this.R7_Paint);
+            this.R7.Click += new System.EventHandler(this.Room_Click);
             // 
             // label21
             // 
@@ -603,8 +589,7 @@ namespace GMS_Kabbo
             this.R12.Name = "R12";
             this.R12.Size = new System.Drawing.Size(86, 59);
             this.R12.TabIndex = 10;
-            this.R12.Click += new System.EventHandler(this.R12_Click);
-            this.R12.Paint += new System.Windows.Forms.PaintEventHandler(this.R12_Paint);
+            this.R12.Click += new System.EventHandler(this.Room_Click);
             // 
             // label24
             // 
@@ -633,8 +618,7 @@ namespace GMS_Kabbo
             this.R2.Name = "R2";
             this.R2.Size = new System.Drawing.Size(86, 59);
             this.R2.TabIndex = 2;
-            this.R2.Click += new System.EventHandler(this.R2_Click);
-            this.R2.Paint += new System.Windows.Forms.PaintEventHandler(this.R2_Paint);
+            this.R2.Click += new System.EventHandler(this.Room_Click);
             // 
             // label10
             // 
@@ -645,7 +629,6 @@ namespace GMS_Kabbo
             this.label10.Size = new System.Drawing.Size(46, 15);
             this.label10.TabIndex = 9;
             this.label10.Text = "Room 2";
-            this.label10.Click += new System.EventHandler(this.label10_Click_1);
             // 
             // guna2Panel4
             // 
@@ -664,8 +647,7 @@ namespace GMS_Kabbo
             this.R18.Name = "R18";
             this.R18.Size = new System.Drawing.Size(86, 59);
             this.R18.TabIndex = 15;
-            this.R18.Click += new System.EventHandler(this.R18_Click);
-            this.R18.Paint += new System.Windows.Forms.PaintEventHandler(this.R18_Paint);
+            this.R18.Click += new System.EventHandler(this.Room_Click);
             // 
             // label30
             // 
@@ -694,8 +676,7 @@ namespace GMS_Kabbo
             this.R8.Name = "R8";
             this.R8.Size = new System.Drawing.Size(86, 59);
             this.R8.TabIndex = 7;
-            this.R8.Click += new System.EventHandler(this.R8_Click);
-            this.R8.Paint += new System.Windows.Forms.PaintEventHandler(this.R8_Paint);
+            this.R8.Click += new System.EventHandler(this.Room_Click);
             // 
             // label20
             // 
@@ -724,8 +705,7 @@ namespace GMS_Kabbo
             this.R16.Name = "R16";
             this.R16.Size = new System.Drawing.Size(86, 59);
             this.R16.TabIndex = 13;
-            this.R16.Click += new System.EventHandler(this.R16_Click);
-            this.R16.Paint += new System.Windows.Forms.PaintEventHandler(this.R16_Paint);
+            this.R16.Click += new System.EventHandler(this.Room_Click);
             // 
             // label28
             // 
@@ -754,8 +734,7 @@ namespace GMS_Kabbo
             this.R6.Name = "R6";
             this.R6.Size = new System.Drawing.Size(86, 59);
             this.R6.TabIndex = 5;
-            this.R6.Click += new System.EventHandler(this.R6_Click);
-            this.R6.Paint += new System.Windows.Forms.PaintEventHandler(this.R6_Paint);
+            this.R6.Click += new System.EventHandler(this.Room_Click);
             // 
             // label22
             // 
@@ -784,8 +763,7 @@ namespace GMS_Kabbo
             this.R13.Name = "R13";
             this.R13.Size = new System.Drawing.Size(86, 59);
             this.R13.TabIndex = 11;
-            this.R13.Click += new System.EventHandler(this.R13_Click);
-            this.R13.Paint += new System.Windows.Forms.PaintEventHandler(this.R13_Paint);
+            this.R13.Click += new System.EventHandler(this.Room_Click);
             // 
             // label25
             // 
@@ -814,8 +792,7 @@ namespace GMS_Kabbo
             this.R3.Name = "R3";
             this.R3.Size = new System.Drawing.Size(86, 59);
             this.R3.TabIndex = 3;
-            this.R3.Click += new System.EventHandler(this.R3_Click);
-            this.R3.Paint += new System.Windows.Forms.PaintEventHandler(this.R3_Paint);
+            this.R3.Click += new System.EventHandler(this.Room_Click);
             // 
             // label13
             // 
@@ -844,8 +821,7 @@ namespace GMS_Kabbo
             this.R11.Name = "R11";
             this.R11.Size = new System.Drawing.Size(86, 59);
             this.R11.TabIndex = 9;
-            this.R11.Click += new System.EventHandler(this.R11_Click);
-            this.R11.Paint += new System.Windows.Forms.PaintEventHandler(this.R11_Paint);
+            this.R11.Click += new System.EventHandler(this.Room_Click);
             // 
             // label23
             // 
@@ -874,8 +850,7 @@ namespace GMS_Kabbo
             this.R1.Name = "R1";
             this.R1.Size = new System.Drawing.Size(86, 59);
             this.R1.TabIndex = 0;
-            this.R1.Click += new System.EventHandler(this.R1_Click);
-            this.R1.Paint += new System.Windows.Forms.PaintEventHandler(this.R1_Paint);
+            this.R1.Click += new System.EventHandler(this.Room_Click);
             // 
             // label9
             // 
@@ -886,7 +861,6 @@ namespace GMS_Kabbo
             this.label9.Size = new System.Drawing.Size(46, 15);
             this.label9.TabIndex = 8;
             this.label9.Text = "Room 1";
-            this.label9.Click += new System.EventHandler(this.label9_Click_1);
             // 
             // guna2Panel2
             // 
@@ -915,7 +889,6 @@ namespace GMS_Kabbo
             this.FreeRoomsProgress.Size = new System.Drawing.Size(128, 128);
             this.FreeRoomsProgress.TabIndex = 0;
             this.FreeRoomsProgress.Text = "guna2CircleProgressBar1";
-            this.FreeRoomsProgress.ValueChanged += new System.EventHandler(this.guna2CircleProgressBar1_ValueChanged);
             // 
             // label8
             // 
@@ -936,7 +909,6 @@ namespace GMS_Kabbo
             this.AVLbl2.Size = new System.Drawing.Size(29, 20);
             this.AVLbl2.TabIndex = 5;
             this.AVLbl2.Text = "20";
-            this.AVLbl2.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox6
             // 
@@ -967,7 +939,6 @@ namespace GMS_Kabbo
             this.AVLbl.Size = new System.Drawing.Size(63, 15);
             this.AVLbl.TabIndex = 8;
             this.AVLbl.Text = "Available";
-            this.AVLbl.Click += new System.EventHandler(this.label9_Click);
             // 
             // BLbl
             // 
@@ -978,7 +949,6 @@ namespace GMS_Kabbo
             this.BLbl.Size = new System.Drawing.Size(52, 15);
             this.BLbl.TabIndex = 9;
             this.BLbl.Text = "Booked";
-            this.BLbl.Click += new System.EventHandler(this.label10_Click);
             // 
             // Aprogress
             // 
@@ -999,7 +969,6 @@ namespace GMS_Kabbo
             this.Bprogress.TabIndex = 11;
             this.Bprogress.Text = "guna2ProgressBar2";
             this.Bprogress.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
-            this.Bprogress.ValueChanged += new System.EventHandler(this.guna2ProgressBar2_ValueChanged);
             // 
             // pictureBox8
             // 
@@ -1260,7 +1229,6 @@ namespace GMS_Kabbo
             this.Font = new System.Drawing.Font("Georgia", 6.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "Dashboard";
             this.Text = "Form1";
-            this.Load += new System.EventHandler(this.Dashboard_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.guna2Panel41.ResumeLayout(false);
