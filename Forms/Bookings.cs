@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using GMS_Kabbo.Data;
 
