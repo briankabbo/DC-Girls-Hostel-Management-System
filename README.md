@@ -156,15 +156,3 @@ Edit this only if you use a different server or database name.
 | Missing Bunifu reference | Place `Bunifu.UI.WinForms.1.5.3.dll` in `libs\` |
 | Missing Guna reference | Run `nuget restore` from the solution folder |
 | `(LocalDB)\MSSQLLocalDB` fails | This project uses `(localdb)\DCGirlsHostel` instead (see `App.config`) |
-
----
-
-## License
-
-This project is provided as-is for educational and hostel management use. Third-party UI libraries (Bunifu, Guna) are subject to their own licenses.
-
----
-
-## Author
-
-**Brian Kabbo** — [GitHub](https://github.com/briankabbo)
