@@ -5,6 +5,21 @@ namespace GMS_Kabbo.Data
 {
     internal static class UserRepository
     {
+        public static bool ValidateCredentials(string username, string password)
+        {
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password))
+                return false;
+
+            var storedPassword = GetPasswordHash(username.Trim());
+            if (storedPassword == null || !PasswordHasher.Verify(password, storedPassword))
+                return false;
+
+            if (!PasswordHasher.IsHashed(storedPassword))
+                SetPasswordHash(username.Trim(), PasswordHasher.Hash(password));
+
+            return true;
+        }
+
         public static string GetPasswordHash(string username)
         {
             var result = DatabaseHelper.Scalar(

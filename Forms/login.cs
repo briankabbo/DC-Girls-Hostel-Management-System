@@ -27,17 +27,12 @@ namespace GMS_Kabbo.Forms
             try
             {
                 LocalDbBootstrap.EnsureInstanceRunning();
-                var username = UNameTb.Text.Trim();
-                var storedPassword = UserRepository.GetPasswordHash(username);
 
-                if (storedPassword == null || !PasswordHasher.Verify(PasswordTb.Text, storedPassword))
+                if (!UserRepository.ValidateCredentials(UNameTb.Text, PasswordTb.Text))
                 {
                     MessageBox.Show("Invalid Information");
                     return;
                 }
-
-                if (!PasswordHasher.IsHashed(storedPassword))
-                    UserRepository.SetPasswordHash(username, PasswordHasher.Hash(PasswordTb.Text));
 
                 NavigationHelper.Open<Dashboard>(this);
             }
